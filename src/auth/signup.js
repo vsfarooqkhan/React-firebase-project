@@ -1,12 +1,23 @@
 import React from 'react'
-
-export default class signup extends React.Component {
+import * as firebase from 'firebase/app';
+import 'firebase/auth';
+export default class Signup extends React.Component {
     state = {
         email :'',
         password:'',
         firstName:'',
         lastName:''
     }
+    // constructor(props) {
+    //     super(props);
+    //     this.state = {
+    //       brand: "Ford",
+    //       model: "Mustang",
+    //       color: "red",
+    //       year: 1964
+    //     };
+    //   }
+      
     handleChange = (e) => {
         this.setState({
             [e.target.id] : e.target.value
@@ -16,9 +27,15 @@ export default class signup extends React.Component {
     handleSubmit = (e) => {
         e.preventDefault()
         console.log(this.state)
+        firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password).then((user) => {
+            alert("User has been added")
+        }).catch(function(error) {
+            alert('Error :'+error.message);
+           })
     }
     render() {
         return (
+            
             <div>
             SignUp
             <div className="container">

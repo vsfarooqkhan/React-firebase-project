@@ -4,8 +4,8 @@ import Navbar from './layouts/navbar'
 import './App.css';
 import usersList from './users-list/usersList'
 import dashboard from './dashboard/dashboard'
-import signin from './auth/signin'
-import signup from './auth/signup'
+import Signin from './auth/signin'
+import Signup from './auth/signup'
 function App() {
   return (
       <BrowserRouter>
@@ -14,8 +14,8 @@ function App() {
         <Switch>
           <Route exact path = "/" component= {dashboard}></Route>
           <Route path = "/users/:id" component={usersList} />
-          <Route path="/signin" component={signin} />
-          <Route path="/signup" component = {signup}></Route>
+          <Route path="/signin" component={Signin} />
+          <Route path="/signup" component = {Signup}></Route>
         </Switch>
         </div>
       </BrowserRouter>
