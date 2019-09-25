@@ -1,14 +1,16 @@
 import React from 'react'
 import withFirebaseAuth from 'react-with-firebase-auth'
 import firebaseConfig from './firebaseConfig'
-import * as firebase from 'firebase/app';
-import 'firebase/auth';
-const firebaseApp = firebase.initializeApp(firebaseConfig);
-
+import * as firebase from 'firebase/app'
+import 'firebase/auth'
+const firebaseApp = firebaseConfig
 class Signin extends React.Component {
     state = {
         email :'',
-        password:''
+        password:'',
+        name :'',
+        user:null,
+        authUser: null,
     }
     handleChange = (e) => {
         this.setState({
@@ -24,22 +26,16 @@ class Signin extends React.Component {
         firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password).catch(function(error) {
             console.log(error.code)
             console.log(error.message)
-            if(error.code == 'auth/invalid-email') {
-                alert("The email you have entered is in incorrect format")
-            }
-            else if(error.code == "auth/wrong-password"){
-                alert("The password you have entered is incorrect")
-            }
-            else if(error.code == "auth/user-not-found") {
-                alert("Email not found")
-            }
-            else if(error.code == "auth/too-many-requests"){
-                alert("Too many requests.  Please try again after some time .")
-            }
-            else {
-                alert(error.message)
-            }
+            alert(error.message)
+            this.setState({name :'farooq'})
            })
+    }
+    componentDidMount() {
+        firebase.auth().onAuthStateChanged(authUser => {
+            authUser
+              ? this.setState({ authUser })
+              : this.setState({ authUser: null });
+          }); 
     }
     render() {
         const {
@@ -56,7 +52,8 @@ class Signin extends React.Component {
                     
                     user 
                         ? <div><p>Hello, {user.displayName}</p>
-                        <p>You profile :</p><img src={user.photoURL} width="50px" height="50px"></img><p>Your email : {user.email}</p></div>
+                        <p>You profile :</p><img src={user.photoURL} width="50px" height="50px"></img><p>Your email : {user.email}</p>
+                        <p></p></div>
                 :         
                     <form onSubmit={this.handleSubmit} className="white">
                         <div className="input-field">
@@ -79,8 +76,11 @@ class Signin extends React.Component {
           } */}
 
           {
-            user
-              ? <button className="btn blue lighten-2 z-depth-0" onClick={this.logOut}>Sign out</button>
+            this.state.authUser !=null
+              ? <div>
+                  <button className="btn blue lighten-2 z-depth-0" onClick={this.logOut}>Sign out</button>
+                  
+                  </div>
               : <button className="btn blue lighten-2 z-depth-0" onClick={signInWithGoogle}>Sign in with Google</button>
           }
             </div>

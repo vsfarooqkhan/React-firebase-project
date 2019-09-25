@@ -6,6 +6,7 @@ import usersList from './users-list/usersList'
 import dashboard from './dashboard/dashboard'
 import Signin from './auth/signin'
 import Signup from './auth/signup'
+import Logout from './layouts/logout'
 function App() {
   return (
       <BrowserRouter>
@@ -16,6 +17,7 @@ function App() {
           <Route path = "/users/:id" component={usersList} />
           <Route path="/signin" component={Signin} />
           <Route path="/signup" component = {Signup}></Route>
+          <Route path = "/logout" component = {Logout}></Route>
         </Switch>
         </div>
       </BrowserRouter>

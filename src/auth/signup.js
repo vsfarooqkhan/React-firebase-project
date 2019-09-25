@@ -1,12 +1,14 @@
 import React from 'react'
 import * as firebase from 'firebase/app';
-import 'firebase/auth';
+import 'firebase/auth'
+import Signin from './signin'
 export default class Signup extends React.Component {
     state = {
         email :'',
         password:'',
         firstName:'',
-        lastName:''
+        lastName:'',
+        user:null,
     }
     // constructor(props) {
     //     super(props);
@@ -33,12 +35,38 @@ export default class Signup extends React.Component {
             alert('Error :'+error.message);
            })
     }
+    logOut = (e) => {
+        e.preventDefault()
+        firebase.auth().signOut()
+    }
+    signIn1 = () => {
+        window.location.href ='/signin'
+    }
+    getDetails = () => {
+        firebase.auth().onAuthStateChanged(user => {
+            user
+              ? this.setState({ user })
+              : this.setState({ user: null });
+          });   
+    }
+    componentDidMount() {
+        this.getDetails()
+    }
     render() {
         return (
             
             <div>
-            SignUp
+            
+            {
+                this.state.user != null ?
+                <div> 
+                <h4>User already logged in </h4>
+                <p>{this.state.user.email}</p>
+                <button className="btn dark ilghten-4 z-depth-0" onClick={this.logOut}>Signout </button>
+                </div>
+                :
             <div className="container">
+                <h2> Signup</h2>
                 <form onSubmit={this.handleSubmit} className="white">
                     <div className="input-field">
                         <label htmlFor="FirstName"> First Name</label>
@@ -57,10 +85,12 @@ export default class Signup extends React.Component {
                         <input type="text" id ="password" onChange={this.handleChange}></input>
                     </div>
                     <div className="input-field">
-                        <button  className ="btn pink lighten-2 z-depth-0">Signup</button> 
+                        <button  className ="btn pink lighten-2 z-depth-0">Signup</button> <p></p>
+                        <button type="button" onClick={this.signIn1} className="btn blue lighten-2 z-depth-0">Signin </button>
                     </div>
                 </form>
             </div>
+            }
             </div>
         )
     }

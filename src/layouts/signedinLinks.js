@@ -1,14 +1,49 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
+import * as firebase from 'firebase/app';
+import 'firebase/auth'
 import { isExpressionWrapper } from '@babel/types'
-const SignedinLinks = () => {
+
+export default class SignedinLinks extends React.Component {
+    state = {
+        user : null
+    }
+    getDetails = () => {
+        firebase.auth().onAuthStateChanged(user => {
+            user
+              ? this.setState({ user })
+              : this.setState({ user: null });
+          });   
+    }
+    componentDidMount() {
+        this.getDetails()
+    }
+    logOut = (e) => {
+        e.preventDefault()
+        firebase.auth().signOut()
+    }
+render() {
     return (
         <ul className="right">
-            <li><NavLink to="/">New Project</NavLink></li>
-            <li><NavLink to="/logout">Logout</NavLink></li>
-            <li><NavLink to="/" className="btn btn-floating pink lighten-1">Log</NavLink></li>
+            {
+                this.state.user != null 
+                ? 
+                <ul className="right"> 
+                    <li><NavLink to="/">New Project</NavLink></li>
+                    <li><NavLink to="/logout">Logout</NavLink></li>
+                    <li>
+                        <NavLink to="/" className="btn waves-effect waves-light purple accent-4">Hi, {this.state.user.displayName}
+                        </NavLink>
+                        </li>
+                    </ul>
+                : 
+                
+                    <li><NavLink to ="/" className="btn waves-effect waves-light red pink lighten-1">Login</NavLink>
+                    </li>
+                
+            }
             <li><NavLink to="/"></NavLink></li>
         </ul>
     )
 }
-export default SignedinLinks
+}
