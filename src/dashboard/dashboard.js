@@ -1,7 +1,7 @@
 import React from 'react'
 import Notifications from './notifications'
 import UserList from '../users-list/users'
-class dashboard extends React.Component {
+export default class dashboard extends React.Component {
     render() {
         return (
             <div className="dashboard container">
@@ -17,4 +17,3 @@ class dashboard extends React.Component {
         )
     }
 }
-export default dashboard

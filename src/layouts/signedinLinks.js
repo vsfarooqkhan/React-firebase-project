@@ -8,15 +8,12 @@ export default class SignedinLinks extends React.Component {
     state = {
         user : null
     }
-    getDetails = () => {
+    componentDidMount() {
         firebase.auth().onAuthStateChanged(user => {
             user
               ? this.setState({ user })
               : this.setState({ user: null });
           });   
-    }
-    componentDidMount() {
-        this.getDetails()
     }
     logOut = (e) => {
         e.preventDefault()
@@ -32,7 +29,10 @@ render() {
                     <li><NavLink to="/">New Project</NavLink></li>
                     <li><NavLink to="/logout">Logout</NavLink></li>
                     <li>
-                        <NavLink to="/" className="btn waves-effect waves-light purple accent-4">Hi, {this.state.user.displayName}
+                        <NavLink to="/" className="btn waves-effect waves-light purple accent-4">Hi,
+                        {
+                        this.state.user.displayName != null ?
+                         this.state.user.displayName : this.state.user.email }
                         </NavLink>
                         </li>
                     </ul>
