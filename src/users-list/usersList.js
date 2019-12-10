@@ -8,12 +8,14 @@ const usersList = (props) => {
             <div className="card z-depth-0">
                 <div className="card-content">
                     <span className="card-title">
-                        Helllooo
+                        Helllo!
                     </span>
                     <p> Welcome your name is :{id}</p>
                 </div>
                 <div className="card-action grey lighten-4 grey-text">
-                    <div> Your email  : vsfarooqkhan@gmail.com</div>
+                    <div><b> Your email  : anonymous@mail.com </b> </div>
+                    <div> <b> Your Name : Anonymous  </b></div>
+                    
                 </div>
             </div>
             
